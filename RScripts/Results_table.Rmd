@@ -1,0 +1,29 @@
+---
+title: "Bike Share Kaggle Results"
+author: "Casey Quinn"
+date: "February 22, 2016"
+output: pdf_document
+---
+
+
+Description|Train RMSLE|Test RMSLE
+-----------|-----|-----
+lmlmfitAllPredTest|1.218684|1.20397
+lmfit2PredTest|1.238186|1.20670
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
