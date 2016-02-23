@@ -8,8 +8,14 @@ output: pdf_document
 
 Description|Train RMSLE|Test RMSLE
 -----------|-----|-----
-lmlmfitAllPredTest|1.218684|1.20397
+lmfitAllPredTest|1.218684|1.20397
+lmfitAllhourPredTest|1.042438|1.03834
 lmfit2PredTest|1.238186|1.20670
+lmfit3PredTest|1.059169|1.03978
+lmBackFitPredTest|1.0435|1.03813
+lmForwFitPredTest|1.044539|1.03904
+lmSeqFitPredTest|1.0435|	1.03813
+lmStepAICFitPredTest|1.042635|1.03906
 
 
 
