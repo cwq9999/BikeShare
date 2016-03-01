@@ -1,13 +1,13 @@
 rm(list=ls())
 
 #require(knitr)
-require(dplyr)
-require(tidyr)
-require(matrixStats)
-require(ggplot2)
-require(lubridate)
-require(Metrics)
-require(caret)
+library(dplyr)
+library(tidyr)
+library(matrixStats)
+library(ggplot2)
+library(lubridate)
+library(Metrics)
+library(caret)
 
 
 #Set working directories
