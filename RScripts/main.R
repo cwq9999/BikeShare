@@ -26,13 +26,42 @@ library(caret)
 ################
 # Loading and processing data
 ################
+# Partly adapted from Brooke
 
-train <- read.csv("Data/train.csv", header = TRUE)%>%
-  mutate(season = factor(season), holiday = factor(holiday), 
-         workingday = factor(workingday), weather = factor(weather),
-         datetime = ymd_hms(datetime, tz="EST"), hour = hour(train$datetime))
-trainData <- select(train, -casual, -registered, -datetime)%>%
-  mutate(count = log(count))
+train <- read.csv("Data/train.csv", as.is = TRUE) # `as.is` so `datetime` comes in as
+# character, not factor
+test <- read.csv("Data/test.csv", as.is = TRUE)
+
+train <- mutate(train,
+                datetime = ymd_hms(datetime),
+                year = factor(year(datetime)),
+                hour = factor(hour(datetime)),
+                month = month(datetime),
+                yday = yday(datetime),
+                weather = factor(weather, levels = c(1, 2, 3, 4),
+                                 labels = c("Clear", "Mist", "Light Precip",
+                                            "Heavy Precip")),
+                season = factor(season, levels = c(1, 2, 3, 4),
+                                labels = c("Spring", "Summer", "Fall", "Winter")),
+                workingday = factor(workingday, levels = c(0, 1),
+                                    labels = c("Holiday / weekend",
+                                               "Working day")))
+test  <- mutate(test,
+                datetime = ymd_hms(datetime),
+                year = factor(year(datetime)),
+                hour = factor(hour(datetime)),
+                month = month(datetime),
+                yday = yday(datetime),
+                weather = factor(weather, levels = c(1, 2, 3, 4),
+                                 labels = c("Clear", "Mist", "Light Precip",
+                                            "Heavy Precip")),
+                season = factor(season, levels = c(1, 2, 3, 4),
+                                labels = c("Spring", "Summer", "Fall", "Winter")),
+                workingday = factor(workingday, levels = c(0, 1),
+                                    labels = c("Holiday / weekend",
+                                               "Working day")))
+
+
 qplot(train$count)
 qplot(trainData$count)
 plot(train$count)
@@ -41,32 +70,23 @@ qplot(train$datetime, train$count)
 qplot(train$datetime, trainData$count)
 #train$datetime  <- strptime(train$datetime, "%Y-%m-%d %H:%M:%S")
 
-test <- read.csv("Data/test.csv", header = TRUE)%>%
-  mutate(season = factor(season), holiday = factor(holiday), 
-         workingday = factor(workingday), weather = factor(weather),
-         datetime = ymd_hms(datetime, tz="EST"),hour = hour(test$datetime))
-testData <- select(test, -datetime)%>%
-  mutate()
-
-#test$datetime  <- strptime(test$datetime, "%Y-%m-%d %H:%M:%S")
-#test$datetime <- ymd_hms(test$datetime)
-
-
 ####################
 # Functions
 ####################
 
 # pre: length(predicted) == length(y), both numeric
-rmsle.check <- function(predicted,actual){
-  n <- length(predicted)
-  
-  sqrt(1/n * sum((log(predicted+1) - log(actual+1))^2))
+rmsle.fun <- function(predicted,actual){
+  rmsle <- sqrt(mean(sum((log(predicted+1) - log(actual+1))^2)))
+  names(rmsle) <- "rmsle"
+  return(rmsle)
 }
 
 # pre: data is a data frame with two columns named "obs" and "pred"
 # note: lev and model paramters are not supported
-rmsle.measure <- function(data, lev = NULL, model = NULL){
-  rmsle.check(data$pred, data$obs)
+rmsle_measure <- function(data, lev = NULL, model = NULL){
+  rmsle <- rmsle.fun(data$pred, data$obs)
+  names(rmsle) <- "rmsle"
+  return(rmsle)
 }
 
 ######################################################################
@@ -447,4 +467,60 @@ my_solution <- data.frame(datetime = test$datetime, count = rpart.count)
 
 # Write your solution away to a csv file with the name my_solution.csv
 write.csv(my_solution, file = "Predictions/tree1.csv", row.names = FALSE)
+
+
+##################
+# Ridge Regression
+##################
+
+fitControl <- trainControl(method = "cv",
+                           number = 5,
+                           ## Evaluate performance using 
+                           ## the following function
+                           summaryFunction = rmsle_measure)
+ridge.out <- train(count ~ temp + hour + workingday + year, data = train,
+                   method = "ridge",
+                   trControl = fitControl,
+                   metric = "rmsle",
+                   maximize = FALSE,
+                   preProcess = c("center", "scale", "spatialSign"),
+                   tuneLength = 10)
+
+train_preds <- predict(ridge.out, newdata = train)
+rmsle.fun(train_preds, train$count)
+
+test_preds <- predict(ridge.out, newdata = test)
+
+##################
+# Lasso
+##################
+
+fitControl <- trainControl(method = "cv",
+                           number = 5,
+                           ## Evaluate performance using 
+                           ## the following function
+                           summaryFunction = rmsle_measure)
+lasso.out <- train(count ~ temp + hour + workingday + year, data = train,
+                            method = "lasso",
+                            trControl = fitControl,
+                            metric = "rmsle",
+                            maximize = FALSE,
+                            preProcess = c("center", "scale", "spatialSign"),
+                            tuneLength = 10)
+lasso.out
+
+train_preds <- predict(lasso.out, newdata = train)
+rmsle.fun(train_preds, train$count)
+
+test_preds <- predict(lasso.out, newdata = test)
+
+######################
+# Principle Components
+######################
+
+
+#######################
+# Partial Least Squares
+#######################
+
 
