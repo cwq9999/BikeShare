@@ -30,6 +30,10 @@ Around 15-20 slides outlining a blueprint for attacking future predictive modeli
         - As colloaborators can use Pull/Push buttons under the Git tab 
         (no need to fork the repo or request pull requests etc.)
 
+## Slide with image
+
+<img src="images/image1.png" alt="image1" style="width:6in;height:4in;">
+
 ## Slide with R Output
 
 ```{r cars, echo = TRUE}
