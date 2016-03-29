@@ -2,7 +2,7 @@
 title: "BikeShare_PredMod_BluePrint"
 author: "Casey Quinn"
 date: "March 29, 2016"
-output: ioslides_presentation
+output: beamer_presentation
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +12,43 @@ knitr::opts_chunk$set(echo = FALSE)
 ## General Instructions
 
 Around 15-20 slides outlining a blueprint for attacking future predictive modeling challenges. This should be based on your experiences with the first two challenges, but you can also draw on advice from our textbooks, online advice on machine learning, etc., to come up with steps you plan to take and things you plan to look for the next time you need to build a predictive model. You should cover the full process, from first getting the data through to picking a top model. Some of the steps you likely want to cover include initial exploratory data analysis, picking a metric (like RMSLE) to use to assess models, checking for and handling datasets that aren’t straightforward (e.g., have missing data, have more predictors than observations, have heavy class imbalance, are very large or very small, …), trying out different types of models and tuning models, engineering and selecting predictive variables, and choosing and running a final model. You should also include some guidelines about how to efficiently work as a team when working on a predictive modeling challenge.
+
+## Predictive Modeling Approach: Overview
+
+Define the Problem
+
+Understand the Data
+
+
+## Define the Problem
+
+\textbf{Model Complexity Constraints}
+  * Offline vs "Instantaneous" Implementation
+      * Speed
+      * Computation Time
+        
+\textbf{Model Accuracy and Precision Requirements}
+  * "Exact" vs "Rough" Predictions
+
+
+## Undertand the Data
+
+**Data Types**
+
+  &ensp;*Continuous vs Classification Data*
+
+**Missing values**
+
+  &ensp;*Find*
+  
+    * VIM: aggr function
+  
+  &ensp;*Handle*
+  
+    * Removal
+    * Imputation
+    * Set as unique classification 
+    * No change
 
 ## Github Collaboration
     + Chose a team leader.
@@ -26,13 +63,21 @@ Around 15-20 slides outlining a blueprint for attacking future predictive modeli
         git remote add origin https://github.com/cwq9999/Example.git
         git push -u origin master
         
-    + Add team memebers as collaborators.
-        - As colloaborators can use Pull/Push buttons under the Git tab 
+    + Add team members as collaborators.
+        - As collaborators can use Pull/Push buttons under the Git tab 
         (no need to fork the repo or request pull requests etc.)
 
 ## Slide with image
 
-<img src="images/image1.png" alt="image1" style="width:6in;height:4in;">
+
+
+```{r htmlimagecode}
+#<img src="images/image1.png" alt="image1" style="width:6in;height:4in;">
+```
+
+## Require vs Library
+
+## Relative vs Absolute Pathnames
 
 ## Slide with R Output
 
