@@ -65,8 +65,6 @@ knitr::opts_chunk$set(echo = FALSE)
   \item Variable combinations if many variables
   \end{itemize}
 
-
-
 ## Understand the Data: Missing Values
 
 \textbf{Find Them}
@@ -91,9 +89,42 @@ knitr::opts_chunk$set(echo = FALSE)
   \item \textbf{Handling test/prediction missing data}
   \end{itemize}
 
-## Model Tuning Metric
+## Model Tuning Metric Considerations
 
-## Model Evaluations and Tuning
+  \textbf{Outcome Type}
+    \begin{itemize}
+    \item Continuous
+      \begin{itemize}
+      \item Prediction
+      \end{itemize}
+    
+    \item Classification
+      \begin{itemize}
+      \item Probabilities
+      \item Discrete Outcome
+      \end{itemize}
+    \end{itemize}
+
+  \textbf{Data Shape}
+    \begin{itemize}
+    \item Normal 
+    \item Skewed
+    \end{itemize}
+
+## Model Evaluations
+
+\textbf{Methods}
+\begin{itemize}
+\item k-Fold Cross Validation
+\item Monte Carlo
+\item Bootstrap
+\item Data Simulation
+\end{itemize}
+
+\textbf{Avoid Overfitting}
+\newline
+\newline
+\textbf{Reduce Model Size / Number of Parameters}
 
 ## Github Collaboration
 \begin{enumerate}
@@ -152,15 +183,68 @@ knitr::opts_chunk$set(echo = FALSE)
 \item Select Model Type and Refine as a Group or Subgroups
 \end{enumerate}
 
-## General Collaboration: Require vs Library
+## General Collaboration: Loading Packages (Require vs Library)
 
+\textbf{Library}
+\begin{itemize}
+\item Loads a Library and causes an \textit{\textbf{Error}} if Library doesn't exist.
+\item Best option for collaboration.
+\end{itemize}
+
+\textbf{Require}
+\begin{itemize}
+\item Tries to load a Library and provides a \textit{\textbf{warning}} if library doesn't exist.
+\item Not a good option for collaboration.
+\item Primarily designed for functions.
+\end{itemize}
 
 ## General Collaboration: Relative vs Absolute Pathnames
 
 
+```
+#Set working directories
+my_dir1 <- "C:/Docs/Dropbox/PhD/classes/STAT695/BikeShare"
+#my_dir2 <- ""
+
+if(dir.exists(my_dir1)){
+  setwd(my_dir1)
+}#else if(dir.exists(my_dir2)){
+#  setwd(my_dir2)
+
+```
+
 ## General Collaboration: RProjects and Dropbox
 
+\begin{itemize}
+\item Continuously syncs to Dropbox.
+\item Remember to close your Rproject.
+\item Otherwise you won't be able to sync your Dropbox
+\item Better to have separate Projects for each collaborator.
+\end{itemize}
+
+## General Collaboration: Operating Systems
+
+\begin{itemize}
+\item Be wary of character differences between operating systems and potentially even versions of R or RStudio.
+\item The \textit{\textbf{"$\sim$"}} has been an issue in the past.
+\end{itemize}
 
 
-## General Collaboration: Operationg Systems
+## Rmarkdown....
 
+\begin{itemize}
+\item It's challenging and takes time to learn. 
+\item Rmarkdown formatting doesn't work very well!
+  \begin{itemize}
+  \item You can't even bold highlight a bullet list item with the *** command. 
+  \item If you know HTML or LateX don't bother with RMarkdown formatting. 
+  \end{itemize}
+\end{itemize}  
+  
+## References
+
+\begin{itemize}
+\item Kuhn. Applied Predictive Modeling
+\item www.github.com
+\item http://yihui.name/en/2014/07/library-vs-require/
+\end{itemize}
